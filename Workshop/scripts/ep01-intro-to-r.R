@@ -25,13 +25,14 @@
 #
 
 # What does: 11 + 1 / 6  evaluate to ?
+11+1/6
 
 
 # Solution:
 
 
 # Calculate 10 plus 2 all divided by 3 and then squared
-
+(10 + 2)/3**2
 # Solution:
 
 
@@ -70,7 +71,7 @@ a + b               # we can add them together just like numbers
 #
 # Sensible object names are sensible ...
 #
-date_of_birth <- 7
+date_of_birth <- 20221205
 z <- 19.5
 THEMOL <- 42
 camelCaseIsGenerallyNotRecommended <- "Unless you follow Google's Style guide"
@@ -90,20 +91,21 @@ ekljre2jklwef023ijlefj93jkl23rj90f32k <- 1
 # Assign the name of video conferencing tool to an object
 #
 # Solution: [Hint:      <- "Zoom"]
-
+workshop_name <- "Introduction to R"
+video_conference <- "Zoom"
 
 # Which of these are valid object names: [Hint: Try them out]
 #
 #  min_height
-#  max.height
-#  _age
-#  .mass
-#  MaxLength
-#  min-length
-#  2widths
+#  max.height            GOOD
+#  _age                  INVALID (starts with underscore)
+#  .mass                 INVALID as a object name strats from dot - it's an operator
+#  MaxLength             GOOD
+#  min-length            INVALID (uses substraction - hiphen)
+#  2widths               INVALID (starts with number)
 #  celsius2kelvin
 
-
+celsius2kelvin <-22
 #
 # Topic: Displaying results
 #
@@ -118,7 +120,9 @@ weight_lb          # and so does typing the name of the object
 # weight_lb <- 57.5
 # weight_kg <- 2.20462 * weight_lb
 #
-
+2.20462 * weight_lb
+weight_lb <- 57.5
+weight_kg <- 2.20462 * weight_lb
 # 
 # Exercise
 # 
@@ -133,6 +137,12 @@ weight_lb          # and so does typing the name of the object
 #
 # How do we do we know if our answers are correct ? 
 # [Hint: <highlight> [ALT][ENTER]
+mass <- 47.5
+mass <- mass * 2.0
+age  <- 122 
+mass_index <- mass/age
+
+
 
 #
 # Topic: Comments
@@ -150,28 +160,38 @@ weight_lb          # and so does typing the name of the object
 #
 # Add explanatory comments to the following lines of code
 #
+# Conversions of lengths
+# ft <- 3             Length in feet
+# in <- ft * 12       Length in inches, convert from feet to inches
+# cms <- in * 2.54    Length in centimeters, convert from inches to cms
+# m = cms / 100       Length in meters, convert from cms to meters
 
-ft <- 3
-in <- ft * 12
-cms <- in * 2.54
-m = cms / 100
-
+# convert inches to centimeters 
 #
 # Topic: Functions and Arguments
 #
 # Square Root:  sqrt()
 #
+sqrt(2)
+
 
 # arguments can be constants of objecs
-
+sqrt(age)
 # Absolute Value: abs()
-# 
+abs(-10023)
 # Decimal rounding: round(3.14159)
-
+round(3.14159)
 
 # Built-in constants: eg, pi
+round(pi)
 
-# Getting help about particular functions 
+# Getting help about particular functions
+?round
+round(pi, digits = 8)
+round(1023.321, digits = - 2)
+?args(round)
+round(3.14159, 2)
+round(digits = 3, x = pi)
 #
 # Question Mark followed by function name, eg: ?round
 
@@ -188,8 +208,9 @@ m = cms / 100
 # what does the function called log10() do ?  Can you test it ?
 #
 # Answer:
-
-
+?log10
+log10(1000)
+log(1000, base = 10)
 
 #
 # Topic: Vectors and Data Types
@@ -201,16 +222,20 @@ m = cms / 100
 # Let's assign the following numbers to an object called glengths:
 #
 #  4.6, 3000, 50000
+glengths <-c(4.6, 3000, 50000)
 
 # and repeat to create a vector of species
+length(species)
 #
 #  "ecoli", "human", "corn"
+species <- c("ecoli", "human", "corn")
 
 # use length() to obtain how many elements a vector contains
 
 # we can also ask what structure of our vectors look like with str()
 
 # and also see what class they are with class()
+class(species)
 
 
 # and btw, there are other classes as well ...
