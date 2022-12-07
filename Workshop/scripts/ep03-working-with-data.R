@@ -276,7 +276,7 @@ surveys_long <- surveys %>%
 
 #Creating a new data.frame
 
-surveys_complete <- s %>%
+surveys_complete <- s 
   filter(!is.na(weight),       	# remove missing weight
          !is.na(hindfoot_length),  # remove missing hindfoot_length
          !is.na(sex))            	# remove missing sex

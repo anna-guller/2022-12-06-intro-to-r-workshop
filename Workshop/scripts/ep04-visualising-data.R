@@ -236,6 +236,8 @@ surveys_complete %>%
   geom_line() + 
   labs(y = "Number of observations")
 
+system("git remote show origin")
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Topic: Faceting
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
