@@ -17,16 +17,22 @@ library(tidyverse)
 surveys_complete <- read_csv("data_out/surveys_complete.csv")
 
 # empty plot
-
+ggplot(data=surveys_complete)
 
 # empty plot with axes
-
+ggplot(data=surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
 
 # data appears on the plot
-
+ggplot(data=surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) + 
+    geom_point()
 
 
 # assign a plot to an object
+survey_plot
+
+splot <-ggplot(data=surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
+splot + 
+  geom_point()
 
 
 # display the ggplot object (plus add an extra geom layer)
@@ -39,9 +45,20 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 # ------------------------
 # Change the mappings so weight is on the y-axis and hindfoot_length is on the x-axis
 
+ggplot(data=surveys_complete, mapping = aes(x = hindfoot_length, y = weight)) + 
+  geom_point()
 
+install.packages("hexbin")
+library(hexbin)
 
+splot + 
+  geom_point()
 
+ggplot(data=surveys_complete, mapping = aes(x = weight)) + 
+  geom_histogram(bindwith=10)
+
+ggplot(data=surveys_complete, mapping = aes(x = hindfoot_length)) + 
+  geom_histogram(bindwith=10)
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -49,9 +66,22 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # 
 
+splot + 
+  geom_point(alpha = .1)
 
 
 
+splot + 
+  geom_point(alpha = .1, colour = "green")
+
+splot + 
+  geom_point(alpha = .1, colour = "135")
+
+splot + 
+  geom_point(alpha = .1, colour = "565")
+
+splot + 
+  geom_point(alpha = .1, aes(colour = species_id))
 
 
 # ------------------------
@@ -63,11 +93,27 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 # Is this a good way to show this type of data?
 
 
+ggplot(data=surveys_complete, mapping = aes(x = species_id, y = weight)) + 
+  geom_point()
 
+splot <- ggplot(data=surveys_complete, mapping = aes(x = species_id, y = weight)) + 
+  geom_point()
 
+splot +
+  geom_point(alpha = 0.1, aes(colour = plot_id))
+
+splot +
+  geom_jitter(alpha = 0.1, aes(colour = plot_id))
 
 #not a great way to display this data...
 
+ggplot(data=surveys_complete, mapping = aes(x = species_id, y = weight)) + 
+  geom_boxplot()
+
+
+ggplot(data=surveys_complete, mapping = aes(x = species_id, y = weight)) + 
+  geom_boxplot(alpha = 0) +
+  geom_jitter(alpha = 3, colour = "tomato")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Topic: Boxplots
@@ -85,7 +131,10 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 
 # Notice how the boxplot layer is behind the jitter layer? What do you need to change in the code to put the boxplot in front of the points such that it's not hidden?
 
-
+ggplot(data=surveys_complete, mapping = aes(x = species_id, y = weight)) + 
+  geom_jitter(alpha = 3, colour = "tomato") +
+  geom_boxplot(alpha = 0) 
+  
 
 # ------------------------
 # Exercise/Challenge 4
@@ -99,7 +148,9 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 # 
 #Replace the box plot with a violin plot
 
-
+ggplot(data=surveys_complete, mapping = aes(x = species_id, y = weight)) + 
+  geom_jitter(alpha = 3, colour = "tomato") +
+  geom_violin()
 
 
 # ------------------------
@@ -116,8 +167,18 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 
 # with a color scale
 
+ggplot(data=surveys_complete, mapping = aes(x = species_id, y = weight)) + 
+  geom_jitter(alpha = 0.3, aes(colour = plot_id)) +
+  geom_boxplot(alpha = 0) 
+
+class(surveys_complete$plot_id)
+
+surveys_complete$plot_id <- as.factor(surveys_complete$plot.id)
 
 #now run again, and there are discrete colors:
+ggplot(data=surveys_complete, mapping = aes(x = species_id, y = hindfoot_length)) + 
+  geom_jitter(alpha = .3, aes(colour = as.factor(plot_id))) +
+  geom_boxplot(alpha = 0) 
 
 
 # alternately, we can change the class of plot_id on the fly (without changing data object)
@@ -137,7 +198,10 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 # Make a scatter plot of species_id on the x-axis and weight on the y-axis with 
 # a log10 scale.
 
-
+ggplot(data=surveys_complete, mapping = aes(x = species_id, y = hindfoot_length)) + 
+  geom_jitter(alpha = .3, aes(colour = as.factor(plot_id))) +
+  geom_boxplot(alpha = 0) + 
+  scale_y_log10()
 
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -147,6 +211,11 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 
 # counts per year for each genus
 
+year_counts <- surveys_complete %>%
+  count(year, genus)
+
+ggplot(data = year_counts, mapping = aes(x = year, y = n, group = genus)) +
+  geom_line()
 
 # ------------------------
 # Exercise/Challenge 7
@@ -154,13 +223,18 @@ surveys_complete <- read_csv("data_out/surveys_complete.csv")
 # Modify the code for the yearly counts to colour by genus so we can clearly see the counts by genus. 
 
 
-
+ggplot(data = year_counts, mapping = aes(x = year, y = n, colour = genus)) +
+  geom_line()
 
 
 # OR alternately
 # integrating the pipe operator with ggplot (no need to make a separate dataframe)
 
-
+surveys_complete %>%
+  count(year, genus) %>%
+  ggplot(mapping = aes(x=year, y = n, colour = genus)) +
+  geom_line() + 
+  labs(y = "Number of observations")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # Topic: Faceting
